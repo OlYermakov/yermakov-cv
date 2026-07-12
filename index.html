@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Oleksii Yermakov — Vermessungsingenieur, Kartenzeichner, Land Manager mit 20 Jahren Erfahrung. DE · EN · UK · ES.">
+  <meta name="author" content="Oleksii Yermakov">
+  <meta name="theme-color" content="#0f172a">
+  <title>Oleksii Yermakov — Vermessungsingenieur</title>
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Oleksii Yermakov — Vermessungsingenieur">
+  <meta property="og:description" content="Vermessungsingenieur · Kartenzeichner · Land Manager mit 20 Jahren Erfahrung.">
+  <meta property="og:image" content="Foto.png">
+  <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Oleksii Yermakov — Vermessungsingenieur">
+  <meta name="twitter:description" content="Vermessungsingenieur · Kartenzeichner · Land Manager mit 20 Jahren Erfahrung.">
+  <meta name="twitter:image" content="Foto.png">
+
+  <!-- Inline SVG favicon (logo style) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230f172a'/%3E%3Cpath d='M16 6L27 25H5L16 6Z' fill='none' stroke='%23f97316' stroke-width='2'/%3E%3Ccircle cx='16' cy='18' r='2' fill='%23f97316'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="contour-bg" aria-hidden="true">
+    <svg class="contour-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="contourFade" cx="50%" cy="45%" r="68%">
+          <stop offset="0%" stop-color="white" stop-opacity="1"/>
+          <stop offset="50%" stop-color="white" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="contourMask">
+          <rect width="100%" height="100%" fill="url(#contourFade)"/>
+        </mask>
+      </defs>
+      <g id="contourLines" mask="url(#contourMask)" fill="none" stroke-linecap="round" stroke-linejoin="round"></g>
+    </svg>
+  </div>
+  <div class="site-overlay" aria-hidden="true"></div>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#hero" class="nav-logo">
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M16 3L28 26H4L16 3Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="16" cy="16" r="2" fill="currentColor"/>
+          <line x1="16" y1="3" x2="16" y2="16" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2"/>
+        </svg>
+        <span>O.Yermakov</span>
+        <span class="logo-sub" data-i18n="logo.sub">Vermessung</span>
+      </a>
+      <div class="nav-right">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#hero" data-i18n="nav.home">Haupt</a></li>
+          <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+          <li><a href="#lebenslauf" data-i18n="nav.cv">Lebenslauf</a></li>
+          <li><a href="#kontakte" data-i18n="nav.contacts">Kontakte</a></li>
+        </ul>
+        <div class="lang-switch" id="langSwitch">
+          <button type="button" class="lang-current" id="langCurrent" aria-haspopup="true" aria-expanded="false" aria-label="Sprache wählen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg>
+            <span class="lang-code" id="langCode">DE</span>
+            <svg class="lang-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="lang-menu" id="langMenu" role="menu">
+            <li><button type="button" role="menuitem" data-lang="de">Deutsch</button></li>
+            <li><button type="button" role="menuitem" data-lang="en">English</button></li>
+            <li><button type="button" role="menuitem" data-lang="uk">Українська</button></li>
+            <li><button type="button" role="menuitem" data-lang="es">Español</button></li>
+          </ul>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-gradient" aria-hidden="true"></div>
+
+      <div class="hero-hud" aria-hidden="true">
+        <div class="hud-corner hud-tl"></div>
+        <div class="hud-corner hud-tr"></div>
+        <div class="hud-corner hud-bl"></div>
+        <div class="hud-corner hud-br"></div>
+        <div class="hud-coords hud-coords-tl">
+          <span>N 50°00'42"</span>
+          <span>E 08°01'18"</span>
+        </div>
+        <div class="hud-coords hud-coords-br">
+          <span>EPSG:25832</span>
+          <span>± 3 mm</span>
+        </div>
+        <div class="hud-scale">
+          <span>0</span>
+          <div class="hud-scale-bar"></div>
+          <span>100 m</span>
+        </div>
+        <div class="hud-bearing">N ↑ 0°</div>
+      </div>
+
+      <div class="container hero-layout">
+        <div class="hero-inner">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span data-i18n="hero.badge">Vermessungsingenieur · Kartenzeichner · Land Manager</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="hero-name" data-i18n="hero.name">Oleksii Yermakov</span>
+          </h1>
+          <p class="hero-subtitle" data-i18n="hero.subtitle">
+            20 Jahre Erfahrung in den Bereichen Vermessungswesen, Bauwesen und Katasterwesen.
+          </p>
+          <p class="hero-desc" data-i18n="hero.desc">
+            Mehr als 2.000 erfolgreich ausgeführte Planungs- und technische Dokumentationen mit Landmanagement
+            und mehr als 300 vereinbarte topografische und geodätische Materialien.
+          </p>
+          <div class="hero-stats">
+            <div class="stat blueprint-panel">
+              <span class="stat-id">P-01</span>
+              <span class="stat-num">20+</span>
+              <span class="stat-label" data-i18n="hero.stat1">Jahre Erfahrung</span>
+            </div>
+            <div class="stat blueprint-panel">
+              <span class="stat-id">P-02</span>
+              <span class="stat-num">2.000+</span>
+              <span class="stat-label" data-i18n="hero.stat2">Dokumentationen</span>
+            </div>
+            <div class="stat blueprint-panel">
+              <span class="stat-id">P-03</span>
+              <span class="stat-num">300+</span>
+              <span class="stat-label" data-i18n="hero.stat3">Geodätische Materialien</span>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a href="#lebenslauf" class="btn btn-primary" data-i18n="hero.cta1">Lebenslauf ansehen</a>
+            <a href="#kontakte" class="btn btn-outline" data-i18n="hero.cta2">Kontakt aufnehmen</a>
+          </div>
+        </div>
+
+        <figure class="hero-portrait">
+          <div class="portrait-frame">
+            <img src="Foto.png" alt="Oleksii Yermakov — Vermessungsingenieur" width="280" height="340" loading="eager">
+            <span class="portrait-corner portrait-corner-tl" aria-hidden="true"></span>
+            <span class="portrait-corner portrait-corner-tr" aria-hidden="true"></span>
+            <span class="portrait-corner portrait-corner-bl" aria-hidden="true"></span>
+            <span class="portrait-corner portrait-corner-br" aria-hidden="true"></span>
+          </div>
+          <figcaption class="portrait-caption">
+            <span class="portrait-id">REF-P · 0001</span>
+            <span class="portrait-role" data-i18n="hero.portraitRole">Ing. · Vermessungsingenieur</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="section" id="portfolio">
+      <div class="container">
+        <div class="section-header blueprint-header">
+          <span class="section-tag" data-i18n="portfolio.tag">§ 01 · Portfolio</span>
+          <h2 data-i18n="portfolio.title">Fachgebiete</h2>
+          <div class="section-line"></div>
+        </div>
+        <div id="portfolioCategories" class="portfolio-categories"></div>
+      </div>
+    </section>
+
+    <!-- Lebenslauf -->
+    <section class="section section-alt" id="lebenslauf">
+      <div class="container">
+        <div class="section-header blueprint-header">
+          <span class="section-tag" data-i18n="cv.tag">§ 02 · Lebenslauf</span>
+          <h2 data-i18n="cv.title">Berufserfahrung &amp; Qualifikation</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <!-- Experience -->
+        <div class="cv-block">
+          <h3 class="cv-block-title" data-i18n="cv.experience">Berufserfahrung</h3>
+          <div class="timeline">
+
+            <article class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-date" data-i18n="job1.date">09.2025 – bis Heute</span>
+                </div>
+                <h4 data-i18n="job1.role">Vermessungsingenieur</h4>
+                <p class="timeline-company" data-i18n="job1.company">„A.I.T." GmbH (Rimpar, Deutschland)</p>
+                <p class="timeline-desc" data-i18n="job1.desc">Ingenieurdienstleistungen für Infrastrukturprojekte: Vermessung, Lärmschutzplanung und Bauüberwachung.</p>
+                <ul>
+                  <li data-i18n="job1.li1">Durchführung tachymetrischer Messungen sowie GNSS-Aufnahmen auf Eisenbahnbaustellen: Gleise, Weichen, Bahnsteige, Oberleitungsanlagen (OLA) und Ingenieurbauwerke.</li>
+                  <li data-i18n="job1.li2">Aufbau und Pflege des baubegleitenden Vermessungsnetzes; Einrichtung und Prüfung von Festpunkten sowie Durchführung von Genauigkeits-/Qualitätskontrollen.</li>
+                  <li data-i18n="job1.li3">Durchführung von Nivellements; Erfassung und Dokumentation von Höhenkoten an Bauwerken und Infrastrukturelementen.</li>
+                  <li data-i18n="job1.li4">Absteckung/Vermarkung vor Ort: Fundamente von OLA-Masten, Weichenabsteckung (Weichentrapez), Achsen und Kontrollpunkte; Erstellung von Stationierung und Punktnummerierung.</li>
+                  <li data-i18n="job1.li5">Ausführung von Bestands-, Kontroll- und Abnahmemessungen, inkl. Querprofilen sowie Aufnahme charakteristischer Punkte und Hindernisse.</li>
+                  <li data-i18n="job1.li6">Aufbereitung und Übergabe der Ergebnisse an den Auftraggeber: DWG/PDF, Koordinatenlisten (CSV), Messdateien (GSI/GEO), KML; Sicherstellung der täglichen Datenübergabe und Fotodokumentation.</li>
+                  <li data-i18n="job1.li7">Feld- und Büroauswertung: Plausibilitätsprüfung der Messungen, Berechnung/Abstimmung von Punkten sowie Führen von Messjournalen und Protokollen.</li>
+                  <li data-i18n="job1.li8">Koordination mit der Baustelle sowie Einhaltung von Arbeitsschutz-, Zugangs- und Unterweisungsanforderungen.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-date" data-i18n="job2.date">09.2024 – 09.2025 (1 Jahr)</span>
+                </div>
+                <h4 data-i18n="job2.role">Bauvermessungsingenieur</h4>
+                <p class="timeline-company" data-i18n="job2.company">„PETER CORRIGAN BERATENDE INGENIEURE" GmbH (Kelsterbach, Deutschland)</p>
+                <p class="timeline-desc" data-i18n="job2.desc">Bereitstellung erstklassiger georäumlicher Ingenieurlösungen für die gesamte Bauindustrie</p>
+                <ul>
+                  <li data-i18n="job2.li1">Absteckung, Nivellierung und Vermessung einer Baustelle</li>
+                  <li data-i18n="job2.li2">Arbeiten mit Lageplänen, Zeichnungen und Gebäudedatenmodellen</li>
+                  <li data-i18n="job2.li3">Abstecken von Baugrenzen auf dem Boden mit Hilfe von Pflöcken und Markierungen</li>
+                  <li data-i18n="job2.li4">Zusammenarbeit mit Konstrukteuren und Ingenieuren, um sicherzustellen, dass die Pläne und Zeichnungen korrekt sind</li>
+                  <li data-i18n="job2.li5">Überwachen der Qualitätskontrolle</li>
+                  <li data-i18n="job2.li6">Überwachung von Gesundheit und Sicherheit</li>
+                  <li data-i18n="job2.li7">Führen eines Bautagebuchs</li>
+                  <li data-i18n="job2.li8">Lösen von technischen Problemen</li>
+                  <li data-i18n="job2.li9">Arbeiten in einem Büro und auf einer Baustelle</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-date" data-i18n="job3.date">08.2019 – 09.2022 (3 Jahre 2 Monate)</span>
+                </div>
+                <h4 data-i18n="job3.role">Abteilungsleiter für Ingenieurvermessung</h4>
+                <p class="timeline-company" data-i18n="job3.company">„ENTWICKLUNGSDIENSTLEITER "AWTOMAHISTRAL" GmbH (Kyjiw, Ukraine)</p>
+                <p class="timeline-desc" data-i18n="job3.desc">Planung, Architektur, Design, Konstruktion</p>
+                <ul>
+                  <li data-i18n="job3.li1">Verwaltung der Produktion und der wirtschaftlichen Aktivitäten der Abteilung.</li>
+                  <li data-i18n="job3.li2">Entwicklung von Planaufgaben für die Erstellung und Durchführung von ingenieurtechnischen (geodätischen, geologischen usw.) Vermessungen und Sicherstellung ihrer Durchführung.</li>
+                  <li data-i18n="job3.li3">Ergreifen von Maßnahmen zur effizienten Nutzung von Arbeits- und Materialressourcen, Maschinen und anderen Produktionsmitteln pro Produktionseinheit.</li>
+                  <li data-i18n="job3.li4">Sicherstellung der Mechanisierung von Produktionsprozessen und der Steigerung der Arbeitsproduktivität.</li>
+                  <li data-i18n="job3.li5">Einführung von wissenschaftlich fundierten Produktionsstandards.</li>
+                  <li data-i18n="job3.li6">Organisation der Planung, der Buchhaltung, der Vorbereitung und der Übermittlung von Dokumenten des festgelegten Berichtswesens über die Produktionsaktivitäten der Abteilung.</li>
+                  <li data-i18n="job3.li7">Mitwirkung an der Organisation von Aus- und Weiterbildungsmaßnahmen für das Personal.</li>
+                  <li data-i18n="job3.li8">Organisation der kommunal-wirtschaftlichen Versorgung von Mitarbeitern der Abteilung.</li>
+                  <li data-i18n="job3.li9">Kontrolle der Einhaltung der Produktions- und Arbeitsdisziplin, der Regeln und Vorschriften des Arbeitsschutzes, der Arbeitshygiene und des Brandschutzes von den Mitarbeitern.</li>
+                  <li data-i18n="job3.li10">Durchführung von Erziehungsarbeit im Team der Abteilung.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-date" data-i18n="job4.date">02.2015 – 07.2019 (4 Jahre 6 Monate)</span>
+                </div>
+                <h4 data-i18n="job4.role">Führender Fachmann für Kataster-, topographische und geodätische Arbeiten</h4>
+                <p class="timeline-company" data-i18n="job4.company">„INSTITUT FÜR UNABHÄNGIGE EXPERTENEINSCHÄTZUNG" GmbH (Kyjiw, Ukraine)</p>
+                <p class="timeline-desc" data-i18n="job4.desc">Geodätische Vermessung, Landmanagement, Kataster, Immobilienbewertung</p>
+                <p data-i18n="job4.p1">Organisation, Entwicklung und Kontrolle von Kataster-, topographischen und geodätischen Arbeiten mit weiterer Koordinierung und Genehmigung der entsprechenden Materialien.</p>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-date" data-i18n="job5.date">11.2012 – 07.2014 (1 Jahr 8 Monate)</span>
+                </div>
+                <h4 data-i18n="job5.role">Chefvermesser</h4>
+                <p class="timeline-company" data-i18n="job5.company">„WESTUKRAINISCHE BODENAGENTUR" GmbH (Ternopil, Ukraine)</p>
+                <p class="timeline-desc" data-i18n="job5.desc">Landlegalisierung, geodätische Vermessung, Landmanagement, Kataster</p>
+                <p data-i18n="job5.p1">Organisation, Entwicklung und Kontrolle von topografischen und geodätischen Arbeiten mit weiterer Koordination und Genehmigung der entsprechenden Materialien.</p>
+                <ul>
+                  <li data-i18n="job5.li1">Katastervermessung</li>
+                  <li data-i18n="job5.li2">Geodätische Unterstützung von Bauvorhaben</li>
+                  <li data-i18n="job5.li3">Topografische und geodätische Entwurfsvermessungen</li>
+                  <li data-i18n="job5.li4">Topografische und geodätische Vermessung von Grundstücken und ganzen Gebieten</li>
+                  <li data-i18n="job5.li5">Entwicklung und Vorbereitung von Landbewirtschaftungsprojekten für die Verpachtung von Grundstücken</li>
+                  <li data-i18n="job5.li6">Entwicklung und Vorbereitung von Fruchtfolgeprojekten (grafischer Teil)</li>
+                  <li data-i18n="job5.li7">Entwicklung und Vorbereitung der technischen Dokumentation für die Festlegung von Grenzen</li>
+                  <li data-i18n="job5.li8">Erstellung von Austauschdateien in den entsprechenden Formaten</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-meta">
+                  <span class="timeline-date" data-i18n="job6.date">07.2006 – 11.2012 (6 Jahre 4 Monate)</span>
+                </div>
+                <h4 data-i18n="job6.role">Vermessungstechniker</h4>
+                <p class="timeline-company" data-i18n="job6.company">Staatliches Unternehmen „PODILLJAGEODESKARTOGRAFIJA" (Winnyzja, Ukraine)</p>
+                <p class="timeline-desc" data-i18n="job6.desc">Geodäsie, Kartographie, Topographie, Landmanagement</p>
+                <p data-i18n="job6.p1">Ausführung von topografischen und geodätischen Arbeiten im Gelände mit der Qualifikation eines Topografen der zweiten Kategorie. Erstellung und Kontrolle von Eigentums- und Nutzungsurkunden für Grundstücke.</p>
+                <ul>
+                  <li data-i18n="job6.li1">Geodätische Vermessung von Grundstücken</li>
+                  <li data-i18n="job6.li2">Vorbereitung der technischen Dokumentation für das Eigentum an Grundstücken</li>
+                  <li data-i18n="job6.li3">Durchführung von topographischen und geodätischen Arbeiten für den Plan- und Höhenbezug von topographischen Karten</li>
+                  <li data-i18n="job6.li4">Durchführung von topographischen und geodätischen Arbeiten für Projekte der Landvergabe für Kioske und Teichpacht</li>
+                </ul>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="cv-block">
+          <h3 class="cv-block-title" data-i18n="cv.education">Akademische Ausbildung</h3>
+          <div class="edu-grid">
+            <article class="edu-card">
+              <div class="edu-period">09.2007 – 12.2012</div>
+              <h4 data-i18n="edu1.school">Nationale Universität „Polytechnikum Lwiw"</h4>
+              <p class="edu-location" data-i18n="edu1.location">Lwiw, Ukraine</p>
+              <p class="edu-degree" data-i18n="edu1.degree">Geodäsie, Vermessungsingenieur — Höher (5 Jahre 3 Monate)</p>
+              <p data-i18n="edu1.desc">Erwerb einer vollständigen Hochschulausbildung in der Fachrichtung „Vermessungskunde" und einer Qualifikation als Vermessungsingenieur.</p>
+            </article>
+            <article class="edu-card">
+              <div class="edu-period">09.2003 – 06.2006</div>
+              <h4 data-i18n="edu2.school">Technikum für Bauwesen Winnyzja</h4>
+              <p class="edu-location" data-i18n="edu2.location">Winnyzja, Ukraine</p>
+              <p class="edu-degree" data-i18n="edu2.degree">Landmanagement, Landmanagementtechniker — Technische Spezial (2 Jahre 9 Monate)</p>
+              <p data-i18n="edu2.desc">Erwerb einer Ausbildung in der Fachrichtung „Landespflege" einer Qualifikation als Vermessungstechniker.</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- Certificates -->
+        <div class="cv-block">
+          <h3 class="cv-block-title" data-i18n="cv.certificates">Zertifikate</h3>
+          <div class="cert-grid">
+            <div class="cert-item">
+              <span class="cert-year">2026</span>
+              <div>
+                <strong data-i18n="cert1.title">Genehmigung zum Führen der Berufsbezeichnung „Ingenieur"</strong>
+                <span data-i18n="cert1.org">Ingenieurkammer Hessen, Wiesbaden</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2024</span>
+              <div>
+                <strong data-i18n="cert2.title">Zulassung durch Arbeitsschutz und Arbeitssicherheit im Bauwesen</strong>
+                <span data-i18n="cert2.org">Transkarpatisches Ausbildungszentrum für Ausbildung und Umschulung GmbH, online</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2024</span>
+              <div>
+                <strong data-i18n="cert3.title">Zertifikat Sicherheit und Gesundheitsschutz im Bauwesen</strong>
+                <span data-i18n="cert3.org">Alison, online</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2024</span>
+              <div>
+                <strong data-i18n="cert4.title">Zertifikat Grundlagen der manuellen Handhabung</strong>
+                <span data-i18n="cert4.org">Alison, online</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2023</span>
+              <div>
+                <strong data-i18n="cert5.title">Zertifikat der Spezialisierung Excel-Kenntnisse für Datenanalyse und Visualisierung</strong>
+                <span data-i18n="cert5.org">Macquarie-Universität, online</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2021</span>
+              <div>
+                <strong data-i18n="cert6.title">Weiterbildungsnachweis eines Vermessungsingenieurs</strong>
+                <span data-i18n="cert6.org">Nationalen Universität für Bioressourcen und Naturnutzung der Ukraine, Kyjiw</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2019</span>
+              <div>
+                <strong data-i18n="cert7.title">Befähigungsnachweis eines Planungsingenieurs in Bezug auf Ausführung von Vermessungen</strong>
+                <span data-i18n="cert7.org">Gesamt-Ukrainische Gemeinnützige Organisationen „Gilde der Bauplaner", Kyjiw</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2017</span>
+              <div>
+                <strong data-i18n="cert8.title">Weiterbildungsnachweis eines Vermessungsingenieurs</strong>
+                <span data-i18n="cert8.org">Nationalen Universität für Bauwesen und Architektur Kyjiw, Kyjiw</span>
+              </div>
+            </div>
+            <div class="cert-item">
+              <span class="cert-year">2013</span>
+              <div>
+                <strong data-i18n="cert9.title">Befähigungsnachweis eines Vermessungsingenieurs</strong>
+                <span data-i18n="cert9.org">Nationalen Universität für Bauwesen und Architektur Kyjiw, Kyjiw</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills, Languages, About -->
+        <div class="info-grid">
+          <div class="info-card">
+            <h3 data-i18n="skills.title">Berufliche Fähigkeiten</h3>
+            <ul class="skill-list">
+              <li data-i18n="skills.li1">Hervorragende Kenntnisse in Office-Anwendungen und Software im Fachgebiet auf dem Niveau eines fortgeschrittenen Benutzers</li>
+              <li data-i18n="skills.li2">Berufliche Erfahrung und Kenntnisse der Grundsätze von Erstellung, Gestaltung und Bearbeitung digitaler Karten</li>
+              <li data-i18n="skills.li3">Erfahrung im Umgang mit Geräten: Nivellierinstrument, Tachometer, GPS-Geräte, Drohne</li>
+            </ul>
+          </div>
+          <div class="info-card">
+            <h3 data-i18n="lang.title">Sprachen</h3>
+            <div class="lang-list">
+              <div class="lang-item">
+                <span class="lang-name" data-i18n="lang.uk">Ukrainisch</span>
+                <div class="lang-bar"><div class="lang-fill" style="width: 100%"></div></div>
+                <span class="lang-level" data-i18n="lang.native">Muttersprache</span>
+              </div>
+              <div class="lang-item">
+                <span class="lang-name" data-i18n="lang.ru">Russisch</span>
+                <div class="lang-bar"><div class="lang-fill" style="width: 95%"></div></div>
+                <span class="lang-level" data-i18n="lang.fluent">Fließend</span>
+              </div>
+              <div class="lang-item">
+                <span class="lang-name" data-i18n="lang.en">Englisch</span>
+                <div class="lang-bar"><div class="lang-fill" style="width: 65%"></div></div>
+                <span class="lang-level" data-i18n="lang.intermediate">Mittelstufe</span>
+              </div>
+              <div class="lang-item">
+                <span class="lang-name" data-i18n="lang.de">Deutsch</span>
+                <div class="lang-bar"><div class="lang-fill" style="width: 50%"></div></div>
+                <span class="lang-level" data-i18n="lang.preIntermediate">Unter Mittelstufe</span>
+              </div>
+            </div>
+          </div>
+          <div class="info-card info-card-wide">
+            <h3 data-i18n="about.title">Über mich</h3>
+            <div class="about-grid">
+              <p><strong data-i18n="about.birthLabel">Geburtsdatum:</strong> <span data-i18n="about.birthValue">24. Februar 1986</span></p>
+              <p><strong data-i18n="about.licenseLabel">Führerschein:</strong> <span data-i18n="about.licenseValue">Klasse B</span></p>
+              <p><strong data-i18n="about.familyLabel">Familienstand:</strong> <span data-i18n="about.familyValue">Verheiratet, ein Kind</span></p>
+            </div>
+            <p class="about-traits">
+              <strong data-i18n="about.traitsLabel">Persönliche Eigenschaften:</strong> <span data-i18n="about.traitsValue">anspruchsvoll, Vorhandensein von Führungsqualitäten, Gewissenhaftigkeit, Selbstständigkeit.</span>
+            </p>
+            <p data-i18n="about.motto">Ich schätze Höflichkeit, Professionalität und Pünktlichkeit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="kontakte">
+      <div class="container">
+        <div class="section-header blueprint-header">
+          <span class="section-tag" data-i18n="contact.tag">§ 03 · Kontakte</span>
+          <h2 data-i18n="contact.title">Kontakt aufnehmen</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p class="contact-intro" data-i18n="contact.intro">Ich freue mich auf Ihre Nachricht. Kontaktieren Sie mich gerne per Telefon oder E-Mail.</p>
+            <div class="contact-items">
+              <a href="tel:+4915120446924" class="contact-item">
+                <div class="contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label" data-i18n="contact.phone">Telefon</span>
+                  <span class="contact-value">+49 151 20446924</span>
+                </div>
+              </a>
+              <a href="mailto:olyermakov@gmail.com" class="contact-item">
+                <div class="contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label" data-i18n="contact.email">E-Mail</span>
+                  <span class="contact-value">olyermakov@gmail.com</span>
+                </div>
+              </a>
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label" data-i18n="contact.address">Adresse</span>
+                  <span class="contact-value" data-i18n="contact.addressValue">65375 Oestrich-Winkel, Deutschland</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name" data-i18n="form.name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Ihr Name" data-i18n-ph="form.namePh">
+            </div>
+            <div class="form-group">
+              <label for="email" data-i18n="form.email">E-Mail</label>
+              <input type="email" id="email" name="email" required placeholder="ihre@email.de" data-i18n-ph="form.emailPh">
+            </div>
+            <div class="form-group">
+              <label for="message" data-i18n="form.message">Nachricht</label>
+              <textarea id="message" name="message" rows="5" required placeholder="Ihre Nachricht..." data-i18n-ph="form.messagePh"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full" data-i18n="form.submit">Nachricht senden</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-brand" data-i18n="footer.brand">Vermessungsingenieur · Kartenzeichner · Land Manager</p>
+      <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 Oleksii Yermakov. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+  <script src="contours.js"></script>
+  <script src="portfolio-data.js"></script>
+  <script src="portfolio.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="hero3d.js"></script>
+  <script src="script.js"></script>
+  <script src="i18n.js"></script>
+</body>
+</html>
