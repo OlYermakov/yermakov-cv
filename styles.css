@@ -629,7 +629,7 @@ img {
   font-weight: 400;
   color: var(--accent-light);
   letter-spacing: 0.04em;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   animation: fadeUp 0.8s ease both;
 }
 
@@ -648,7 +648,7 @@ img {
 }
 
 .hero-title {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   animation: fadeUp 0.8s 0.1s ease both;
 }
 
@@ -680,7 +680,7 @@ img {
   font-size: 1.02rem;
   color: var(--text-secondary);
   max-width: 580px;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   border-left: 2px solid var(--accent);
   padding-left: 16px;
   animation: fadeUp 0.8s 0.3s ease both;
@@ -689,7 +689,7 @@ img {
 .hero-stats {
   display: flex;
   gap: 16px;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   animation: fadeUp 0.8s 0.4s ease both;
   flex-wrap: wrap;
 }
@@ -762,6 +762,105 @@ img {
   gap: 16px;
   flex-wrap: wrap;
   animation: fadeUp 0.8s 0.5s ease both;
+}
+
+/* ===== Hero: CV als PDF (QR) ===== */
+.hero-cv {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 540px;
+  margin-top: 24px;
+  padding: 16px 20px;
+  animation: fadeUp 0.8s 0.6s ease both;
+}
+
+.hero-cv-qr {
+  position: relative;
+  flex: 0 0 auto;
+  display: block;
+  padding: 8px;
+  border: 1px solid var(--border-accent);
+  background: rgba(8, 13, 25, 0.55);
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.hero-cv-qr img {
+  display: block;
+  width: 132px;
+  height: 132px;
+}
+
+.hero-cv-qr:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px rgba(249, 115, 22, 0.18);
+}
+
+.hero-cv-qr-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--accent);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.hero-cv-qr-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.hero-cv-qr-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+.hero-cv-body {
+  min-width: 0;
+}
+
+.hero-cv-tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--survey-amber);
+  letter-spacing: 0.14em;
+  margin-bottom: 6px;
+}
+
+.hero-cv-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.hero-cv-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.hero-cv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.hero-cv-link svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.hero-cv-link:hover {
+  color: var(--accent-light);
+  border-bottom-color: currentColor;
 }
 
 /* ===== Sections ===== */
@@ -2007,6 +2106,17 @@ a.contact-item:hover {
 
   .hero-actions .btn {
     width: 100%;
+  }
+
+  .hero-cv {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .hero-cv-link {
+    justify-content: center;
   }
 
   .timeline {
