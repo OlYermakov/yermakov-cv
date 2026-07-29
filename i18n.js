@@ -40,6 +40,21 @@
       es: `Ing. · Ingeniero topógrafo`
     },
 
+    // ===== Hero: CV als PDF (QR) =====
+    'cvqr.title': { en: `CV as PDF`, uk: `Резюме у форматі PDF`, es: `Currículum en PDF` },
+    'cvqr.desc': {
+      en: `Scan the QR code with your smartphone and download the complete CV as a PDF.`,
+      uk: `Відскануйте QR-код смартфоном і завантажте повне резюме у форматі PDF.`,
+      es: `Escanee el código QR con su smartphone y descargue el currículum completo en PDF.`
+    },
+    'cvqr.cta': { en: `Download PDF`, uk: `Завантажити PDF`, es: `Descargar PDF` },
+    'cvqr.alt': {
+      de: `QR-Code zum Herunterladen des Lebenslaufs als PDF`,
+      en: `QR code for downloading the CV as a PDF`,
+      uk: `QR-код для завантаження резюме у форматі PDF`,
+      es: `Código QR para descargar el currículum en PDF`
+    },
+
     // ===== Portfolio =====
     'portfolio.tag': { en: `§ 01 · Portfolio`, uk: `§ 01 · Портфоліо`, es: `§ 01 · Portafolio` },
     'portfolio.title': { en: `Areas of expertise`, uk: `Напрями діяльності`, es: `Áreas de especialización` },
@@ -361,6 +376,21 @@
 
   const SUPPORTED = ['de', 'en', 'uk', 'es'];
   const STORAGE_KEY = 'siteLang';
+
+  // Zwei Sprachfassungen des Lebenslauf-PDFs: Deutsch nur für „de",
+  // die englische Fassung für alle übrigen Sprachen (en, es, uk).
+  const CV_PDF = {
+    de: {
+      code: 'DE',
+      qr: 'QR/qr-code%20(DE).png',
+      url: 'https://drive.google.com/file/d/1ycYyS6tDyiwLk_tuuhrgiyPlZK3Fy4PX/view?usp=drive_link'
+    },
+    en: {
+      code: 'EN',
+      qr: 'QR/qr-code%20(EN).png',
+      url: 'https://drive.google.com/file/d/1ZQLvwpaJsSHfK9occjvVSuCxRgVyVQd3/view?usp=drive_link'
+    }
+  };
   const originals = {};
   let current = 'de';
 
@@ -382,6 +412,23 @@
     if (key in originals) return originals[key];
     if (entry && entry.de != null) return entry.de;
     return key;
+  }
+
+  function applyCvPdf(lang) {
+    const variant = lang === 'de' ? CV_PDF.de : CV_PDF.en;
+
+    const img = document.getElementById('heroCvQrImage');
+    if (img) {
+      img.src = variant.qr;
+      img.alt = t('cvqr.alt');
+    }
+
+    const tag = document.getElementById('heroCvTag');
+    if (tag) tag.textContent = `DOC-CV · PDF · ${variant.code}`;
+
+    document.querySelectorAll('[data-cv-pdf-link]').forEach((link) => {
+      link.href = variant.url;
+    });
   }
 
   function applyLang(lang) {
@@ -410,6 +457,8 @@
         el.setAttribute('placeholder', entry && entry[lang] != null ? entry[lang] : originals[key]);
       }
     });
+
+    applyCvPdf(lang);
 
     document.documentElement.lang = lang;
     localStorage.setItem(STORAGE_KEY, lang);
