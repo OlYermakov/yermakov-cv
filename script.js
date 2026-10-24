@@ -159,6 +159,39 @@
   window.addEventListener('resize', onScroll, { passive: true });
   onScroll();
 
+  // Telefonnummer / E-Mail in die Zwischenablage kopieren
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // Fallback für ältere Browser bzw. ohne Clipboard-Berechtigung
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      ta.remove();
+      return ok;
+    }
+  }
+
+  document.querySelectorAll('.contact-copy[data-copy]').forEach((btn) => {
+    let timer;
+    btn.addEventListener('click', async () => {
+      const ok = await copyText(btn.dataset.copy);
+      if (!ok) return;
+      btn.classList.add('copied');
+      btn.dataset.tip = tr('ui.copied', 'Kopiert');
+      clearTimeout(timer);
+      timer = setTimeout(() => btn.classList.remove('copied'), 1800);
+    });
+  });
+
   // Contact form — opens mail client
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();

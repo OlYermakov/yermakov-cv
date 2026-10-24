@@ -33,7 +33,7 @@
   <link rel="preload" href="fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/rajdhani-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="fonts/fonts.css">
-  <link rel="stylesheet" href="styles.css?v=20261024b">
+  <link rel="stylesheet" href="styles.css?v=20261024c">
 </head>
 <body>
   <div class="grid-bg" aria-hidden="true"></div>
@@ -443,11 +443,46 @@
         <div class="info-grid">
           <div class="info-card">
             <h3 data-i18n="skills.title">Berufliche Fähigkeiten</h3>
-            <ul class="skill-list">
-              <li data-i18n="skills.li1">Hervorragende Kenntnisse in Office-Anwendungen und Software im Fachgebiet auf dem Niveau eines fortgeschrittenen Benutzers</li>
-              <li data-i18n="skills.li2">Berufliche Erfahrung und Kenntnisse der Grundsätze von Erstellung, Gestaltung und Bearbeitung digitaler Karten</li>
-              <li data-i18n="skills.li3">Erfahrung im Umgang mit Geräten: Nivellierinstrument, Tachometer, GPS-Geräte, Drohne</li>
-            </ul>
+            <div class="skill-group">
+              <h4 class="skill-group-title" data-i18n="skills.g.equipment">Vermessungsgeräte</h4>
+              <ul class="skill-chips">
+                <li data-i18n="skills.c.totalStation">Tachymeter</li>
+                <li data-i18n="skills.c.level">Nivelliergerät</li>
+                <li data-i18n="skills.c.gnss">GNSS / GPS</li>
+                <li data-i18n="skills.c.drone">Drohne (UAV)</li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4 class="skill-group-title" data-i18n="skills.g.services">Leistungen</h4>
+              <ul class="skill-chips">
+                <li data-i18n="skills.c.topo">Topografische Aufnahme</li>
+                <li data-i18n="skills.c.engineering">Ingenieurvermessung</li>
+                <li data-i18n="skills.c.stakeout">Absteckung</li>
+                <li data-i18n="skills.c.levelling">Nivellement</li>
+                <li data-i18n="skills.c.asbuilt">Bestands- und Abnahmemessung</li>
+                <li data-i18n="skills.c.cadastre">Katastervermessung</li>
+                <li data-i18n="skills.c.maps">Digitale Karten</li>
+                <li data-i18n="skills.c.ortho">Orthofotos</li>
+                <li data-i18n="skills.c.dtm">Digitale Geländemodelle</li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4 class="skill-group-title" data-i18n="skills.g.formats">Datenformate</h4>
+              <ul class="skill-chips">
+                <li>DWG</li>
+                <li>PDF</li>
+                <li>CSV</li>
+                <li>GSI / GEO</li>
+                <li>KML</li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4 class="skill-group-title" data-i18n="skills.g.software">Software</h4>
+              <ul class="skill-chips">
+                <li data-i18n="skills.c.office">Office-Anwendungen (fortgeschritten)</li>
+                <li data-i18n="skills.c.cadgis">Fachsoftware für Vermessung und Kartografie</li>
+              </ul>
+            </div>
           </div>
           <div class="info-card">
             <h3 data-i18n="lang.title">Sprachen</h3>
@@ -502,24 +537,30 @@
           <div class="contact-info">
             <p class="contact-intro" data-i18n="contact.intro">Ich freue mich auf Ihre Nachricht. Kontaktieren Sie mich gerne per Telefon oder E-Mail.</p>
             <div class="contact-items">
-              <a href="tel:+4915120446924" class="contact-item">
-                <div class="contact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-                </div>
-                <div>
-                  <span class="contact-label" data-i18n="contact.phone">Telefon</span>
-                  <span class="contact-value">+49 151 20446924</span>
-                </div>
-              </a>
-              <a href="mailto:olyermakov@gmail.com" class="contact-item">
-                <div class="contact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                </div>
-                <div>
-                  <span class="contact-label" data-i18n="contact.email">E-Mail</span>
-                  <span class="contact-value">olyermakov@gmail.com</span>
-                </div>
-              </a>
+              <div class="contact-row">
+                <a href="tel:+4915120446924" class="contact-item">
+                  <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <span class="contact-label" data-i18n="contact.phone">Telefon</span>
+                    <span class="contact-value">+49 151 20446924</span>
+                  </div>
+                </a>
+                <button type="button" class="contact-copy" data-copy="+4915120446924" data-i18n-aria="ui.copyPhone" aria-label="Kopieren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg></button>
+              </div>
+              <div class="contact-row">
+                <a href="mailto:olyermakov@gmail.com" class="contact-item">
+                  <div class="contact-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  </div>
+                  <div>
+                    <span class="contact-label" data-i18n="contact.email">E-Mail</span>
+                    <span class="contact-value">olyermakov@gmail.com</span>
+                  </div>
+                </a>
+                <button type="button" class="contact-copy" data-copy="olyermakov@gmail.com" data-i18n-aria="ui.copyEmail" aria-label="Kopieren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg></button>
+              </div>
               <div class="contact-item">
                 <div class="contact-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -562,11 +603,11 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </a>
 
-  <script src="contours.js?v=20261024b"></script>
-  <script src="portfolio-data.js?v=20261024b"></script>
-  <script src="portfolio.js?v=20261024b"></script>
-  <script type="module" src="hero3d.js?v=20261024b"></script>
-  <script src="script.js?v=20261024b"></script>
-  <script src="i18n.js?v=20261024b"></script>
+  <script src="contours.js?v=20261024c"></script>
+  <script src="portfolio-data.js?v=20261024c"></script>
+  <script src="portfolio.js?v=20261024c"></script>
+  <script type="module" src="hero3d.js?v=20261024c"></script>
+  <script src="script.js?v=20261024c"></script>
+  <script src="i18n.js?v=20261024c"></script>
 </body>
 </html>
