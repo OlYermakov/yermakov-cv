@@ -14,16 +14,21 @@ JavaScript — no build step required. Ready to host on **GitHub Pages**.
 - **Multilingual UI** (DE / EN / UK / ES) with a language switcher; choice is stored in `localStorage`.
 - **Animated 3D hero** — wireframe terrain, coordinate grid, survey instruments and satellites (Three.js).
 - **Portfolio carousel** grouped by field, with a lightbox.
-- **PDF documents shown as images** (first page rendered to PNG), with download/right‑click disabled.
+- **Web‑optimized portfolio** — every scan/PDF page is converted to WebP (≈ 500 px preview + ≤ 2000 px full view);
+  the original PDFs and full‑size scans are **not published**.
 - **Fully responsive** and keyboard/aria friendly.
-- **Zero dependencies to install** — only a CDN copy of Three.js is loaded at runtime.
+- **No third‑party requests** — fonts and Three.js are self‑hosted (privacy‑friendly, no Google Fonts / CDN).
+- **Performance‑aware** — the 3D hero pauses when off‑screen or in a background tab and renders a still frame for
+  `prefers-reduced-motion`.
 
 ## 🧱 Tech stack
 
 - HTML5 / CSS3 (custom properties, no framework)
 - Vanilla JavaScript (ES6, no bundler)
-- [Three.js](https://threejs.org/) via CDN (animated hero background)
-- [PyMuPDF](https://pymupdf.readthedocs.io/) — offline script to pre‑render portfolio PDFs to PNG
+- [Three.js](https://threejs.org/) r160, self‑hosted ES module in `vendor/` (animated hero background)
+- Inter, Rajdhani, Share Tech Mono via [Fontsource](https://fontsource.org/), self‑hosted in `fonts/` (SIL OFL)
+- [PyMuPDF](https://pymupdf.readthedocs.io/) + [Pillow](https://python-pillow.org/) — offline script that builds the
+  optimized portfolio images
 
 ## 📁 Project structure
 
@@ -34,14 +39,17 @@ JavaScript — no build step required. Ready to host on **GitHub Pages**.
 ├── i18n.js               # Translations (DE/EN/UK/ES) + language switcher
 ├── portfolio.js          # Portfolio carousel + lightbox
 ├── portfolio-data.js     # Generated portfolio manifest
-├── hero3d.js             # Three.js hero scene
+├── hero3d.js             # Three.js hero scene (ES module)
 ├── contours.js           # Topographic contour background
 ├── script.js             # Nav, scroll effects, contact form
-├── render-portfolio.py   # (optional) regenerate portfolio-data.js + PDF thumbnails
-├── Portfolio/            # Source images / PDFs
-├── PortfolioRender/      # PNGs rendered from PDFs
-├── Foto.png              # Portrait
-└── topo-bg.png           # Background texture
+├── render-portfolio.py   # Builds PortfolioRender/ + portfolio-data.js from Portfolio/
+├── Portfolio/            # Original scans / PDFs — local only, git‑ignored
+├── PortfolioRender/      # Published WebP previews and full views
+├── fonts/                # Self‑hosted web fonts + fonts.css
+├── vendor/               # Self‑hosted Three.js
+├── QR/                   # QR codes linking to the CV PDF
+├── Foto.webp / Foto.jpg  # Portrait (page / social preview)
+└── topo-bg.webp          # Background texture
 ```
 
 ## 🚀 Run locally
@@ -77,17 +85,26 @@ The included `.nojekyll` file makes GitHub serve all files as‑is.
 
 ## 🔁 Regenerating the portfolio (optional)
 
-If you add or replace files in `Portfolio/`, rebuild `portfolio-data.js` and the PDF thumbnails:
+Put the original files into `Portfolio/<category folder>/` (this folder is git‑ignored, so originals never get
+published), then rebuild `PortfolioRender/` and `portfolio-data.js`:
 
 ```bash
-pip install pymupdf
+pip install pymupdf pillow
 python render-portfolio.py
 ```
+
+Commit only `PortfolioRender/` and `portfolio-data.js`. Nicer German titles for files with unclear names go into
+the `LABELS` dictionary in `render-portfolio.py`; translations live in `i18n.js` under `pitem.<category>.<index>`.
+
+> Older commits still contain the original files. To remove them from the repository history as well, rewrite
+> the history (e.g. with `git filter-repo --path Portfolio --invert-paths`) and force‑push.
 
 ## 🎨 Customization
 
 - **Colors / theme:** edit the CSS variables in the `:root` block of `styles.css`
   (e.g. `--accent` to change the orange accent).
+- **Site URL:** `og:url`, `og:image` and `canonical` in `index.html` use `https://olyermakov.github.io/yermakov-cv/`;
+  update them if the site moves to another address.
 - **Text / translations:** edit the dictionary in `i18n.js`. German is the source text
   in `index.html`; EN/UK/ES live in `i18n.js` keyed by `data-i18n` attributes.
 
