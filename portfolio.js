@@ -158,11 +158,15 @@
       } else {
         thumb.className = 'portfolio-thumb';
         thumb.setAttribute('aria-label', imageLabel(cat, i));
-        imgThumbs.push({ thumb, cat, idx: i });
+        thumb.title = imageLabel(cat, i);
         thumb.innerHTML = `
           <img src="${item.thumb}" alt=""${sizeAttrs(item)} loading="lazy" decoding="async" draggable="false">
           <span class="portfolio-thumb-overlay">${iconExpand}</span>
+          <span class="portfolio-thumb-caption" aria-hidden="true"></span>
         `;
+        const caption = thumb.querySelector('.portfolio-thumb-caption');
+        caption.textContent = imageLabel(cat, i);
+        imgThumbs.push({ thumb, cat, idx: i, caption });
       }
 
       thumb.addEventListener('click', () => openLightbox(catIndex, i));
@@ -213,7 +217,12 @@
     countEls.forEach(({ el, cat }) => { el.textContent = countLabel(cat); });
     dots.forEach((d, i) => d.setAttribute('aria-label', catTitle(categories[i])));
     ariaEls.forEach(({ el, key, fallback }) => el.setAttribute('aria-label', tt(key, fallback)));
-    imgThumbs.forEach(({ thumb, cat, idx }) => thumb.setAttribute('aria-label', imageLabel(cat, idx)));
+    imgThumbs.forEach(({ thumb, cat, idx, caption }) => {
+      const label = imageLabel(cat, idx);
+      thumb.setAttribute('aria-label', label);
+      thumb.title = label;
+      caption.textContent = label;
+    });
     pdfThumbs.forEach(({ thumb, catId, idx, fallback }) => {
       const label = itemLabel(catId, idx, fallback);
       thumb.title = label;

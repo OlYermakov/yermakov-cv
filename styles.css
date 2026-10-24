@@ -1097,6 +1097,41 @@ img {
   opacity: 1;
 }
 
+/* Bildunterschrift bei Hover/Fokus (Desktop) */
+.portfolio-thumb-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 8px 0;
+  border-bottom: 6px solid rgba(8, 13, 25, 0.95); /* außerhalb des Clip-Bereichs: kein angeschnittener 4. Zeile */
+  font-size: 0.7rem;
+  line-height: 1.3;
+  text-align: left;
+  color: var(--text-primary);
+  background: linear-gradient(to top, rgba(8, 13, 25, 0.95), rgba(8, 13, 25, 0));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--transition), transform var(--transition);
+  pointer-events: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.portfolio-thumb:hover .portfolio-thumb-caption,
+.portfolio-thumb:focus-visible .portfolio-thumb-caption {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: none) {
+  .portfolio-thumb-caption {
+    display: none;
+  }
+}
+
 /* PDF-Vorschau als Miniatur der ersten Seite */
 .portfolio-thumb-media {
   position: absolute;
@@ -1843,24 +1878,35 @@ img {
   color: var(--accent-light);
 }
 
-.skill-list {
+.skill-group + .skill-group {
+  margin-top: 18px;
+}
+
+.skill-group-title {
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.skill-chips {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
 }
 
-.skill-list li {
+.skill-chips li {
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  line-height: 1.4;
   color: var(--text-secondary);
-  font-size: 0.92rem;
-  padding-left: 16px;
-  position: relative;
-}
-
-.skill-list li::before {
-  content: '▪';
-  position: absolute;
-  left: 0;
-  color: var(--accent);
+  background: rgba(249, 115, 22, 0.06);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+  border-radius: 2px;
 }
 
 /* Languages (CEFR-Skala) */
@@ -1959,6 +2005,71 @@ img {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.contact-row {
+  position: relative;
+}
+
+.contact-row .contact-item {
+  padding-right: 68px;
+}
+
+.contact-copy {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.contact-copy svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contact-copy:hover,
+.contact-copy:focus-visible {
+  color: var(--accent);
+  border-color: var(--border-accent);
+}
+
+.contact-copy.copied {
+  color: #1a0d03;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.contact-copy::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  color: #1a0d03;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--transition), transform var(--transition);
+  pointer-events: none;
+}
+
+.contact-copy.copied::after {
+  opacity: 1;
+  transform: none;
 }
 
 .contact-item {
