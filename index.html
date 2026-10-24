@@ -54,6 +54,7 @@
   </div>
   <div class="site-overlay" aria-hidden="true"></div>
 
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <header class="header" id="header">
     <nav class="nav container">
       <a href="#hero" class="nav-logo">
@@ -372,63 +373,63 @@
         <div class="cv-block">
           <h3 class="cv-block-title" data-i18n="cv.certificates">Zertifikate</h3>
           <div class="cert-grid">
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:0">
               <span class="cert-year">2026</span>
               <div>
                 <strong data-i18n="cert1.title">Genehmigung zum Führen der Berufsbezeichnung „Ingenieur"</strong>
                 <span data-i18n="cert1.org">Ingenieurkammer Hessen, Wiesbaden</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:11">
               <span class="cert-year">2024</span>
               <div>
                 <strong data-i18n="cert2.title">Zulassung durch Arbeitsschutz und Arbeitssicherheit im Bauwesen</strong>
                 <span data-i18n="cert2.org">Transkarpatisches Ausbildungszentrum für Ausbildung und Umschulung GmbH, online</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:12">
               <span class="cert-year">2024</span>
               <div>
                 <strong data-i18n="cert3.title">Zertifikat Sicherheit und Gesundheitsschutz im Bauwesen</strong>
                 <span data-i18n="cert3.org">Alison, online</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:13">
               <span class="cert-year">2024</span>
               <div>
                 <strong data-i18n="cert4.title">Zertifikat Grundlagen der manuellen Handhabung</strong>
                 <span data-i18n="cert4.org">Alison, online</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:14">
               <span class="cert-year">2023</span>
               <div>
                 <strong data-i18n="cert5.title">Zertifikat der Spezialisierung Excel-Kenntnisse für Datenanalyse und Visualisierung</strong>
                 <span data-i18n="cert5.org">Macquarie-Universität, online</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:5">
               <span class="cert-year">2021</span>
               <div>
                 <strong data-i18n="cert6.title">Weiterbildungsnachweis eines Vermessungsingenieurs</strong>
                 <span data-i18n="cert6.org">Nationalen Universität für Bioressourcen und Naturnutzung der Ukraine, Kyjiw</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:4">
               <span class="cert-year">2019</span>
               <div>
                 <strong data-i18n="cert7.title">Befähigungsnachweis eines Planungsingenieurs in Bezug auf Ausführung von Vermessungen</strong>
                 <span data-i18n="cert7.org">Gesamt-Ukrainische Gemeinnützige Organisationen „Gilde der Bauplaner", Kyjiw</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:6">
               <span class="cert-year">2017</span>
               <div>
                 <strong data-i18n="cert8.title">Weiterbildungsnachweis eines Vermessungsingenieurs</strong>
                 <span data-i18n="cert8.org">Nationalen Universität für Bauwesen und Architektur Kyjiw, Kyjiw</span>
               </div>
             </div>
-            <div class="cert-item">
+            <div class="cert-item" data-doc="certs:7">
               <span class="cert-year">2013</span>
               <div>
                 <strong data-i18n="cert9.title">Befähigungsnachweis eines Vermessungsingenieurs</strong>
@@ -451,25 +452,25 @@
           <div class="info-card">
             <h3 data-i18n="lang.title">Sprachen</h3>
             <div class="lang-list">
-              <div class="lang-item">
+              <div class="lang-item" data-cefr="C2">
                 <span class="lang-name" data-i18n="lang.uk">Ukrainisch</span>
-                <div class="lang-bar"><div class="lang-fill" style="width: 100%"></div></div>
-                <span class="lang-level" data-i18n="lang.native">Muttersprache</span>
+                <span class="lang-level"><b class="lang-cefr">C2</b> · <span data-i18n="lang.native">Muttersprache</span></span>
+                <span class="lang-scale" aria-hidden="true"><i>A1</i><i>A2</i><i>B1</i><i>B2</i><i>C1</i><i>C2</i></span>
               </div>
-              <div class="lang-item">
+              <div class="lang-item" data-cefr="C2">
                 <span class="lang-name" data-i18n="lang.ru">Russisch</span>
-                <div class="lang-bar"><div class="lang-fill" style="width: 95%"></div></div>
-                <span class="lang-level" data-i18n="lang.fluent">Fließend</span>
+                <span class="lang-level"><b class="lang-cefr">C2</b> · <span data-i18n="lang.fluent">Fließend</span></span>
+                <span class="lang-scale" aria-hidden="true"><i>A1</i><i>A2</i><i>B1</i><i>B2</i><i>C1</i><i>C2</i></span>
               </div>
-              <div class="lang-item">
+              <div class="lang-item" data-cefr="B1">
                 <span class="lang-name" data-i18n="lang.en">Englisch</span>
-                <div class="lang-bar"><div class="lang-fill" style="width: 65%"></div></div>
-                <span class="lang-level" data-i18n="lang.intermediate">Mittelstufe</span>
+                <span class="lang-level"><b class="lang-cefr">B1</b> · <span data-i18n="lang.intermediate">Mittelstufe</span></span>
+                <span class="lang-scale" aria-hidden="true"><i>A1</i><i>A2</i><i>B1</i><i>B2</i><i>C1</i><i>C2</i></span>
               </div>
-              <div class="lang-item">
+              <div class="lang-item" data-cefr="A2">
                 <span class="lang-name" data-i18n="lang.de">Deutsch</span>
-                <div class="lang-bar"><div class="lang-fill" style="width: 50%"></div></div>
-                <span class="lang-level" data-i18n="lang.preIntermediate">Unter Mittelstufe</span>
+                <span class="lang-level"><b class="lang-cefr">A2</b> · <span data-i18n="lang.preIntermediate">Unter Mittelstufe</span></span>
+                <span class="lang-scale" aria-hidden="true"><i>A1</i><i>A2</i><i>B1</i><i>B2</i><i>C1</i><i>C2</i></span>
               </div>
             </div>
           </div>
@@ -556,6 +557,10 @@
       <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 Oleksii Yermakov. Alle Rechte vorbehalten.</p>
     </div>
   </footer>
+
+  <a href="#hero" class="back-to-top" id="backToTop" data-i18n-aria="ui.backToTop" aria-label="Nach oben">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </a>
 
   <script src="contours.js"></script>
   <script src="portfolio-data.js"></script>
