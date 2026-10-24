@@ -1296,6 +1296,7 @@ img {
   z-index: 1;
   width: min(92vw, 1100px);
   max-height: 92vh;
+  max-height: 92dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1304,6 +1305,7 @@ img {
 .lightbox-figure {
   margin: 0;
   max-height: calc(92vh - 80px);
+  max-height: calc(92dvh - 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1312,6 +1314,7 @@ img {
 .lightbox-img {
   max-width: 100%;
   max-height: calc(92vh - 100px);
+  max-height: calc(92dvh - 100px);
   object-fit: contain;
   border: 1px solid var(--border);
   border-radius: 2px;
@@ -1342,8 +1345,10 @@ img {
 .lightbox-pdf {
   width: min(92vw, 960px);
   max-height: calc(92vh - 110px);
+  max-height: calc(92dvh - 110px);
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1352,7 +1357,6 @@ img {
   border: 1px solid var(--border);
   border-radius: 2px;
   background: var(--bg-card);
-  -webkit-overflow-scrolling: touch;
 }
 
 .lightbox-pdf-page {
@@ -1381,10 +1385,11 @@ img {
 
 .lightbox-close {
   position: absolute;
-  top: -44px;
+  z-index: 5;
+  top: -52px;
   right: 0;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--border);
   border-radius: 2px;
   background: var(--bg-card);
@@ -1402,6 +1407,7 @@ img {
 
 .lightbox-nav {
   position: absolute;
+  z-index: 5;
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
@@ -1433,13 +1439,60 @@ img {
     max-height: 200px;
   }
 
-  .lightbox-prev { left: 8px; }
-  .lightbox-next { right: 8px; }
-  .lightbox-close { top: 8px; right: 8px; }
+  /* Smartphone/Tablet: Bedienelemente fest am Bildschirmrand, nicht über dem Dokument */
+  .lightbox-dialog {
+    width: 100%;
+    max-height: none;
+    height: 100%;
+    height: 100dvh;
+    padding: calc(64px + env(safe-area-inset-top, 0px)) 12px calc(84px + env(safe-area-inset-bottom, 0px));
+    justify-content: center;
+  }
+
+  .lightbox-figure {
+    max-height: 100%;
+    width: 100%;
+  }
+
+  .lightbox-img {
+    max-height: calc(100dvh - 210px);
+  }
 
   .lightbox-pdf {
-    width: 92vw;
-    height: calc(88vh - 120px);
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 210px);
+    max-height: calc(100dvh - 210px);
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: 12px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.8rem;
+  }
+
+  .lightbox-nav {
+    position: fixed;
+    top: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+    width: 56px;
+    height: 48px;
+  }
+
+  .lightbox-prev { left: 12px; }
+  .lightbox-next { right: 12px; }
+
+  .lightbox-toolbar {
+    position: fixed;
+    left: 80px;
+    right: 80px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    height: 48px;
+    margin: 0;
   }
 }
 

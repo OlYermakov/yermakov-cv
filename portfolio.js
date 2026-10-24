@@ -296,6 +296,7 @@
   let lbCatTitle = '';
   let lbCatId = '';
   let lbReturnFocus = null;
+  let lbHistory = false; // true, solange ein History-Eintrag für die Lightbox existiert
 
   function openLightbox(catIndex, itemIndex) {
     lbReturnFocus = document.activeElement;
@@ -307,9 +308,23 @@
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
     lbClose.focus();
+    // Eigener History-Eintrag: „Zurück" (Taste/Wischgeste) schließt die Lightbox,
+    // statt die Seite zu verlassen oder darunter zu scrollen.
+    if (!lbHistory) {
+      try {
+        history.pushState({ lightbox: true }, '');
+        lbHistory = true;
+      } catch (e) { /* ohne History-API weiter */ }
+    }
   }
 
-  function closeLightbox() {
+  function closeLightbox(fromHistory) {
+    if (lightbox.hidden) return;
+    if (lbHistory && fromHistory !== true) {
+      lbHistory = false;
+      history.back(); // löst popstate aus, Eintrag wird entfernt
+    }
+    lbHistory = false;
     lightbox.hidden = true;
     lbPdfWrap.innerHTML = '';
     lbImg.removeAttribute('src');
@@ -368,10 +383,40 @@
     renderLightbox();
   }
 
-  lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+  lightbox.querySelector('.lightbox-close').addEventListener('click', () => closeLightbox());
   lightbox.querySelector('.lightbox-prev').addEventListener('click', () => stepLightbox(-1));
   lightbox.querySelector('.lightbox-next').addEventListener('click', () => stepLightbox(1));
-  lightbox.querySelector('[data-close]').addEventListener('click', closeLightbox);
+
+  window.addEventListener('popstate', () => {
+    if (!lightbox.hidden) closeLightbox(true);
+  });
+
+  // Tippen/Klicken auf die freie Fläche rund um das Dokument schließt die Lightbox.
+  const closeTargets = new Set([
+    lightbox, lbDialog, lightbox.querySelector('[data-close]'),
+    lightbox.querySelector('.lightbox-figure')
+  ]);
+  lightbox.addEventListener('click', (e) => {
+    if (closeTargets.has(e.target)) closeLightbox();
+  });
+
+  // Wischen nach links/rechts blättert (vertikales Scrollen in PDFs bleibt erhalten).
+  let swipeX = 0;
+  let swipeY = 0;
+  let swipeActive = false;
+  lightbox.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) { swipeActive = false; return; }
+    swipeActive = true;
+    swipeX = e.touches[0].clientX;
+    swipeY = e.touches[0].clientY;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    if (!swipeActive || lbItems.length < 2) return;
+    swipeActive = false;
+    const dx = e.changedTouches[0].clientX - swipeX;
+    const dy = e.changedTouches[0].clientY - swipeY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) stepLightbox(dx < 0 ? 1 : -1);
+  }, { passive: true });
 
   // Öffentliche API: Dokument aus dem Portfolio direkt öffnen (z. B. aus der Zertifikatsliste).
   window.openPortfolioItem = (catId, itemIndex) => {
