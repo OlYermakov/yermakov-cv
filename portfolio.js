@@ -373,6 +373,14 @@
   lightbox.querySelector('.lightbox-next').addEventListener('click', () => stepLightbox(1));
   lightbox.querySelector('[data-close]').addEventListener('click', closeLightbox);
 
+  // Öffentliche API: Dokument aus dem Portfolio direkt öffnen (z. B. aus der Zertifikatsliste).
+  window.openPortfolioItem = (catId, itemIndex) => {
+    const catIndex = categories.findIndex((c) => c.id === catId);
+    if (catIndex < 0 || !categories[catIndex].items[itemIndex]) return false;
+    openLightbox(catIndex, itemIndex);
+    return true;
+  };
+
   document.addEventListener('keydown', (e) => {
     if (lightbox.hidden) return;
     if (e.key === 'Escape') closeLightbox();

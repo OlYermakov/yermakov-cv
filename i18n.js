@@ -124,6 +124,12 @@
     'ui.nextItem': { de: `Nächstes Dokument`, en: `Next document`, uk: `Наступний документ`, es: `Documento siguiente` },
     'ui.langSelect': { de: `Sprache wählen`, en: `Choose language`, uk: `Обрати мову`, es: `Elegir idioma` },
     'ui.menuOpen': { de: `Menü öffnen`, en: `Open menu`, uk: `Відкрити меню`, es: `Abrir menú` },
+    'ui.backToTop': { de: `Nach oben`, en: `Back to top`, uk: `Нагору`, es: `Volver arriba` },
+    'ui.showMore': { de: `Mehr anzeigen`, en: `Show more`, uk: `Показати більше`, es: `Mostrar más` },
+    'ui.showLess': { de: `Weniger anzeigen`, en: `Show less`, uk: `Показати менше`, es: `Mostrar menos` },
+    'ui.details': { de: `Details anzeigen`, en: `Show details`, uk: `Показати деталі`, es: `Ver detalles` },
+    'ui.view': { de: `Ansehen`, en: `View`, uk: `Переглянути`, es: `Ver` },
+    'ui.viewDoc': { de: `Dokument ansehen`, en: `View document`, uk: `Переглянути документ`, es: `Ver documento` },
     'mail.subject': { de: `Kontaktanfrage von`, en: `Contact request from`, uk: `Запит на контакт від`, es: `Solicitud de contacto de` },
     'mail.email': { de: `E-Mail`, en: `Email`, uk: `Ел. пошта`, es: `Correo electrónico` },
     'meta.title': {
@@ -494,6 +500,10 @@
       } else {
         el.setAttribute('placeholder', entry && entry[lang] != null ? entry[lang] : originals[key]);
       }
+    });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
     });
 
     applyCvPdf(lang);
