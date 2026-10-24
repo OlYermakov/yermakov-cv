@@ -11,7 +11,8 @@
         label: it.label || '',
         src: it.src || null,
         pages: it.pages || null,
-        thumb: it.type === 'pdf' ? (it.pages && it.pages[0]) : it.src
+        thumb: it.thumb || (it.type === 'pdf' ? (it.pages && it.pages[0]) : it.src),
+        size: it.size || null
       })).filter((it) => it.thumb);
       return {
         id: cat.id,
@@ -39,6 +40,15 @@
   };
   const catTitle = (cat) => tt(`pcat.${cat.id}.title`, cat.title);
   const itemLabel = (catId, idx, fallback) => tt(`pitem.${catId}.${idx}`, fallback);
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const sizeAttrs = (item) => item.size ? ` width="${item.size[0]}" height="${item.size[1]}"` : '';
+
+  // Elemente mit statischen, übersetzbaren Attributen (aria-label) — siehe i18n:change.
+  const ariaEls = [];
+  function setAria(el, key, fallback) {
+    el.setAttribute('aria-label', tt(key, fallback));
+    ariaEls.push({ el, key, fallback });
+  }
 
   function countLabel(cat) {
     const parts = [];
@@ -55,35 +65,46 @@
 
   const countEls = [];
   const pdfThumbs = [];
+  const imgThumbs = [];
+
+  // Bilder ohne eigenen Titel (z. B. „1", „2") werden als „Kategorie — Nr." beschriftet.
+  function imageLabel(cat, idx) {
+    const raw = cat.items[idx].label;
+    const label = itemLabel(cat.id, idx, raw);
+    return !raw || /^\d+$/.test(label) ? `${catTitle(cat)} — ${idx + 1}` : label;
+  }
 
   // ---- Karussell-Grundgerüst ----
   const carousel = document.createElement('div');
   carousel.className = 'portfolio-carousel';
   carousel.innerHTML = `
     <div class="portfolio-carousel-bar">
-      <button type="button" class="portfolio-carousel-btn portfolio-carousel-prev" aria-label="Vorherige Kategorie">
+      <button type="button" class="portfolio-carousel-btn portfolio-carousel-prev">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
       <div class="portfolio-carousel-status">
         <span class="portfolio-carousel-index">01</span>
         <span class="portfolio-carousel-sep">/</span>
-        <span class="portfolio-carousel-total">0${categories.length}</span>
+        <span class="portfolio-carousel-total">${pad2(categories.length)}</span>
         <span class="portfolio-carousel-title"></span>
       </div>
-      <button type="button" class="portfolio-carousel-btn portfolio-carousel-next" aria-label="Nächste Kategorie">
+      <button type="button" class="portfolio-carousel-btn portfolio-carousel-next">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
       </button>
     </div>
     <div class="portfolio-carousel-viewport">
       <div class="portfolio-carousel-track"></div>
     </div>
-    <div class="portfolio-carousel-dots" role="tablist" aria-label="Kategorien"></div>
+    <div class="portfolio-carousel-dots" role="tablist"></div>
   `;
 
   const track = carousel.querySelector('.portfolio-carousel-track');
   const dotsWrap = carousel.querySelector('.portfolio-carousel-dots');
   const titleEl = carousel.querySelector('.portfolio-carousel-title');
   const indexEl = carousel.querySelector('.portfolio-carousel-index');
+  setAria(carousel.querySelector('.portfolio-carousel-prev'), 'ui.prevCategory', 'Vorherige Kategorie');
+  setAria(carousel.querySelector('.portfolio-carousel-next'), 'ui.nextCategory', 'Nächste Kategorie');
+  setAria(dotsWrap, 'ui.categories', 'Kategorien');
 
   categories.forEach((cat, catIndex) => {
     const slide = document.createElement('div');
@@ -93,7 +114,7 @@
 
     const cover = (cat.items[0] || cat.images[0]);
     const coverHtml = cover
-      ? `<img src="${cover.thumb}" alt="${cat.title}" loading="lazy">`
+      ? `<img src="${cover.thumb}" alt=""${sizeAttrs(cover)} loading="lazy" decoding="async">`
       : `<div class="portfolio-category-cover-placeholder">${iconPdf}</div>`;
 
     slide.innerHTML = `
@@ -101,7 +122,7 @@
         <div class="portfolio-category-header">
           <div class="portfolio-category-cover">${coverHtml}</div>
           <div class="portfolio-category-info">
-            <span class="portfolio-category-tag">0${catIndex + 1} · <span data-i18n="pcat.field">Fachgebiet</span></span>
+            <span class="portfolio-category-tag">${pad2(catIndex + 1)} · <span data-i18n="pcat.field">Fachgebiet</span></span>
             <h3 data-i18n="pcat.${cat.id}.title">${cat.title}</h3>
             <p data-i18n="pcat.${cat.id}.desc">${cat.desc}</p>
             <span class="portfolio-count">${countLabel(cat)}</span>
@@ -128,7 +149,7 @@
         thumb.title = label;
         thumb.innerHTML = `
           <span class="portfolio-thumb-media">
-            <img src="${item.thumb}" alt="${label}" loading="lazy" draggable="false">
+            <img src="${item.thumb}" alt=""${sizeAttrs(item)} loading="lazy" decoding="async" draggable="false">
           </span>
           <span class="portfolio-thumb-badge">PDF</span>
           <span class="portfolio-thumb-overlay">${iconExpand}</span>
@@ -136,9 +157,10 @@
         pdfThumbs.push({ thumb, catId: cat.id, idx: i, fallback: item.label });
       } else {
         thumb.className = 'portfolio-thumb';
-        thumb.setAttribute('aria-label', `Bild ansehen: ${cat.title} — ${i + 1}`);
+        thumb.setAttribute('aria-label', imageLabel(cat, i));
+        imgThumbs.push({ thumb, cat, idx: i });
         thumb.innerHTML = `
-          <img src="${item.thumb}" alt="${cat.title} — ${i + 1}" loading="lazy" draggable="false">
+          <img src="${item.thumb}" alt=""${sizeAttrs(item)} loading="lazy" decoding="async" draggable="false">
           <span class="portfolio-thumb-overlay">${iconExpand}</span>
         `;
       }
@@ -181,7 +203,7 @@
     });
     slides.forEach((s, i) => s.setAttribute('aria-hidden', i === current ? 'false' : 'true'));
     titleEl.textContent = catTitle(categories[current]);
-    indexEl.textContent = String(current + 1).padStart(2, '0');
+    indexEl.textContent = pad2(current + 1);
     updateHeight();
   }
 
@@ -190,6 +212,8 @@
     titleEl.textContent = catTitle(categories[current]);
     countEls.forEach(({ el, cat }) => { el.textContent = countLabel(cat); });
     dots.forEach((d, i) => d.setAttribute('aria-label', catTitle(categories[i])));
+    ariaEls.forEach(({ el, key, fallback }) => el.setAttribute('aria-label', tt(key, fallback)));
+    imgThumbs.forEach(({ thumb, cat, idx }) => thumb.setAttribute('aria-label', imageLabel(cat, idx)));
     pdfThumbs.forEach(({ thumb, catId, idx, fallback }) => {
       const label = itemLabel(catId, idx, fallback);
       thumb.title = label;
@@ -238,10 +262,10 @@
   lightbox.hidden = true;
   lightbox.innerHTML = `
     <div class="lightbox-backdrop" data-close></div>
-    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Portfolio Vorschau">
-      <button type="button" class="lightbox-close" aria-label="Schließen">&times;</button>
-      <button type="button" class="lightbox-nav lightbox-prev" aria-label="Vorheriges Dokument">&#8249;</button>
-      <button type="button" class="lightbox-nav lightbox-next" aria-label="Nächstes Dokument">&#8250;</button>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" tabindex="-1">
+      <button type="button" class="lightbox-close">&times;</button>
+      <button type="button" class="lightbox-nav lightbox-prev">&#8249;</button>
+      <button type="button" class="lightbox-nav lightbox-next">&#8250;</button>
       <figure class="lightbox-figure">
         <img class="lightbox-img" src="" alt="" hidden draggable="false">
         <div class="lightbox-pdf" hidden></div>
@@ -258,6 +282,12 @@
   const lbPdfWrap = lightbox.querySelector('.lightbox-pdf');
   const lbCaption = lightbox.querySelector('.lightbox-caption');
   const lbCounter = lightbox.querySelector('.lightbox-counter');
+  const lbDialog = lightbox.querySelector('.lightbox-dialog');
+  const lbClose = lightbox.querySelector('.lightbox-close');
+  setAria(lbDialog, 'ui.preview', 'Portfolio-Vorschau');
+  setAria(lbClose, 'ui.close', 'Schließen');
+  setAria(lightbox.querySelector('.lightbox-prev'), 'ui.prevItem', 'Vorheriges Dokument');
+  setAria(lightbox.querySelector('.lightbox-next'), 'ui.nextItem', 'Nächstes Dokument');
   lbImg.addEventListener('contextmenu', noContext);
   lbPdfWrap.addEventListener('contextmenu', noContext);
 
@@ -265,8 +295,10 @@
   let lbIndex = 0;
   let lbCatTitle = '';
   let lbCatId = '';
+  let lbReturnFocus = null;
 
   function openLightbox(catIndex, itemIndex) {
+    lbReturnFocus = document.activeElement;
     lbItems = categories[catIndex].items;
     lbCatId = categories[catIndex].id;
     lbCatTitle = catTitle(categories[catIndex]);
@@ -274,12 +306,22 @@
     renderLightbox();
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
+    lbClose.focus();
   }
 
   function closeLightbox() {
     lightbox.hidden = true;
     lbPdfWrap.innerHTML = '';
+    lbImg.removeAttribute('src');
     document.body.style.overflow = '';
+    if (lbReturnFocus && typeof lbReturnFocus.focus === 'function') lbReturnFocus.focus();
+  }
+
+  // Nachbarbilder vorladen, damit das Blättern ohne Wartezeit funktioniert.
+  function preload(item) {
+    if (!item) return;
+    const src = item.type === 'pdf' ? item.pages[0] : item.src;
+    if (src) new Image().src = src;
   }
 
   function renderLightbox() {
@@ -308,10 +350,16 @@
     } else {
       lbPdfWrap.hidden = true;
       lbPdfWrap.innerHTML = '';
+      const cat = categories.find((c) => c.id === lbCatId);
+      const imgLabel = cat ? imageLabel(cat, lbIndex) : lbCatTitle;
       lbImg.hidden = false;
       lbImg.src = item.src;
-      lbImg.alt = lbCatTitle;
-      lbCaption.textContent = lbCatTitle;
+      lbImg.alt = imgLabel;
+      lbCaption.textContent = imgLabel;
+    }
+    if (lbItems.length > 1) {
+      preload(lbItems[(lbIndex + 1) % lbItems.length]);
+      preload(lbItems[(lbIndex - 1 + lbItems.length) % lbItems.length]);
     }
   }
 
@@ -330,6 +378,15 @@
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') stepLightbox(-1);
     if (e.key === 'ArrowRight') stepLightbox(1);
+    if (e.key === 'Tab') {
+      // Fokus innerhalb des Dialogs halten.
+      const focusables = Array.from(lbDialog.querySelectorAll('button')).filter((b) => b.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
 
   // Reveal-Beobachter

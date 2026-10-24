@@ -1,22 +1,29 @@
 """
-Rendert die PDF-Dokumente des Portfolios in PNG-Bilder (Seite fuer Seite) und
-erzeugt daraus portfolio-data.js.
+Erzeugt aus den Originaldateien im Ordner Portfolio/ web-optimierte Bilder und
+schreibt daraus portfolio-data.js.
 
-Vorteile:
-- Funktioniert auch beim Oeffnen ueber file:// (kein PDF.js/Fetch noetig).
-- Die Original-PDFs werden im Frontend nicht referenziert -> kein direkter Download.
+- Fotos/Scans  -> Vorschaubild (thumb.webp) + Vollbild (1.webp)
+- PDF-Dokumente -> jede Seite als WebP (1.webp, 2.webp, ...) + Vorschaubild
+
+Die Originale (insbesondere die PDFs) werden NICHT veroeffentlicht: Portfolio/
+steht in .gitignore, ins Repository kommt nur PortfolioRender/.
 
 Erneut ausfuehren, wenn sich Dateien im Portfolio-Ordner aendern:
-    py render-portfolio.py
+    pip install pymupdf pillow
+    python render-portfolio.py
 """
+import io
 import json
 import re
 import shutil
 import sys
 from pathlib import Path
-from urllib.parse import quote
 
-import fitz  # PyMuPDF
+import pymupdf
+from PIL import Image, ImageOps
+
+# Die Quellbilder sind eigene, vertrauenswuerdige Dateien (teils > 90 MP).
+Image.MAX_IMAGE_PIXELS = None
 
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -26,9 +33,11 @@ except Exception:
 BASE = Path(__file__).parent
 PORTFOLIO = BASE / "Portfolio"
 RENDER_DIR = BASE / "PortfolioRender"
-ZOOM = 1.5          # Basis-Zoom (~108 dpi)
-MAX_PAGE_PX = 1400  # Maximale Kantenlaenge fuer Web-Anzeige
-JPEG_QUALITY = 85   # Qualitaet fuer gerenderte PDF-Seiten
+PDF_DPI = 150        # Render-Aufloesung fuer PDF-Seiten
+FULL_PX = 2000       # Maximale Kantenlaenge Vollbild / PDF-Seite
+THUMB_PX = 520       # Maximale Kantenlaenge Vorschaubild
+FULL_QUALITY = 80    # WebP-Qualitaet Vollbild
+THUMB_QUALITY = 72   # WebP-Qualitaet Vorschau
 
 CATEGORIES = [
     {
@@ -51,6 +60,21 @@ CATEGORIES = [
     },
 ]
 
+# Deutsche Bezeichnungen fuer Dateien, deren Name keinen sauberen Titel ergibt
+# (Schluessel: Dateiname ohne Endung). Uebersetzungen stehen in i18n.js (pitem.*).
+LABELS = {
+    "Картограма_ухилів (2)": "Kartogramm der Hangneigungen",
+    "Картограмма_грунтів (2)": "Kartogramm der Bodenarten",
+    "План_існуючого (2)": "Bestandsplan",
+    "1.Anerkennung des ": "Genehmigung zum Führen der Berufsbezeichnung „Ingenieur“ (Ingenieurkammer Hessen)",
+    "6.Verbesserung der Qualifikation eines geodätischen Ingenieurs_(Ukraine)": "Weiterbildungsnachweis eines Vermessungsingenieurs (Ukraine, 2021)",
+    "7.Verbesserung der Qualifikation eines geodätischen Ingenieurs_(Ukraine)": "Weiterbildungsnachweis eines Vermessungsingenieurs (Ukraine, 2017)",
+    "4.Arbeitsbuch von Ukraine": "Arbeitsbuch (Ukraine)",
+    "9.Charakteristisch": "Referenzschreiben (AWTOMAHISTRAL)",
+    "10.RECOMMENDATION (PCCE LTD)_2025": "Empfehlungsschreiben (PCCE LTD, 2025)",
+    "15.Coursera 89ZHLQRCZJF5": "Coursera-Zertifikat",
+}
+
 IMAGE_EXT = re.compile(r"\.(jpe?g|png|webp)$", re.I)
 PDF_EXT = re.compile(r"\.pdf$", re.I)
 
@@ -60,17 +84,34 @@ def natural_key(name: str):
 
 
 def pretty_name(file: str) -> str:
-    n = re.sub(r"\.[^.]+$", "", file)          # Endung entfernen
-    n = re.sub(r"^\s*\d+\s*\.\s*", "", n)       # fuehrendes "12." entfernen
+    stem = re.sub(r"\.[^.]+$", "", file)
+    if stem in LABELS:
+        return LABELS[stem]
+    n = re.sub(r"^\s*\d+\s*\.\s*", "", stem)    # fuehrendes "12." entfernen
     n = re.sub(r"[_\s]+", " ", n).strip()
     return n or file
 
 
+def save_webp(img: Image.Image, path: Path, max_px: int, quality: int) -> list:
+    img = img.copy()
+    img.thumbnail((max_px, max_px), Image.LANCZOS)
+    img.save(path, "WEBP", quality=quality, method=6)
+    return list(img.size)
+
+
+def load_image(path: Path) -> Image.Image:
+    img = Image.open(path)
+    img = ImageOps.exif_transpose(img)  # Ausrichtung aus EXIF uebernehmen
+    return img.convert("RGB")
+
+
 def web_path(*parts: str) -> str:
-    return "/".join(quote(p) for p in parts)
+    return "/".join(parts)
 
 
 def main():
+    if not PORTFOLIO.is_dir():
+        sys.exit(f"Ordner fehlt: {PORTFOLIO}")
     if RENDER_DIR.exists():
         shutil.rmtree(RENDER_DIR)
 
@@ -90,28 +131,32 @@ def main():
         items = []
         for idx, file in enumerate(files):
             label = pretty_name(file)
+            out_dir = RENDER_DIR / cat["id"] / str(idx)
+            out_dir.mkdir(parents=True, exist_ok=True)
+            rel = lambda name: web_path("PortfolioRender", cat["id"], str(idx), name)
+
             if PDF_EXT.search(file):
-                out_dir = RENDER_DIR / cat["id"] / str(idx)
-                out_dir.mkdir(parents=True, exist_ok=True)
                 pages = []
-                doc = fitz.open(folder / file)
-                for pno in range(doc.page_count):
-                    page = doc.load_page(pno)
-                    rect = page.rect
-                    zoom = min(ZOOM, MAX_PAGE_PX / max(rect.width, rect.height))
-                    pix = page.get_pixmap(matrix=fitz.Matrix(zoom, zoom))
-                    img_name = f"{pno + 1}.jpg"
-                    pix.save(str(out_dir / img_name), jpg_quality=JPEG_QUALITY)
-                    pages.append(web_path("PortfolioRender", cat["id"], str(idx), img_name))
-                doc.close()
-                items.append({"type": "pdf", "label": label, "pages": pages})
-                print(f"  {cat['id']}: PDF '{file}' -> {len(pages)} Seiten")
+                first = None
+                with pymupdf.open(folder / file) as doc:
+                    for pno, page in enumerate(doc):
+                        pix = page.get_pixmap(dpi=PDF_DPI)
+                        img = Image.open(io.BytesIO(pix.tobytes("png"))).convert("RGB")
+                        name = f"{pno + 1}.webp"
+                        save_webp(img, out_dir / name, FULL_PX, FULL_QUALITY)
+                        pages.append(rel(name))
+                        first = first or img
+                tsize = save_webp(first, out_dir / "thumb.webp", THUMB_PX, THUMB_QUALITY)
+                items.append({"type": "pdf", "label": label, "thumb": rel("thumb.webp"),
+                              "size": tsize, "pages": pages})
+                print(f"  {cat['id']}/{idx}: PDF '{file}' -> {len(pages)} Seite(n)")
             else:
-                items.append({
-                    "type": "image",
-                    "label": label,
-                    "src": web_path("Portfolio", cat["folder"], file),
-                })
+                img = load_image(folder / file)
+                save_webp(img, out_dir / "1.webp", FULL_PX, FULL_QUALITY)
+                tsize = save_webp(img, out_dir / "thumb.webp", THUMB_PX, THUMB_QUALITY)
+                items.append({"type": "image", "label": label, "thumb": rel("thumb.webp"),
+                              "size": tsize, "src": rel("1.webp")})
+                print(f"  {cat['id']}/{idx}: Bild '{file}'")
 
         data.append({
             "id": cat["id"],

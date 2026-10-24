@@ -95,17 +95,49 @@
     },
 
     // ===== Portfolio-Dokumentnamen (Lightbox-Untertitel) =====
-    'pitem.certs.0': { en: `Recognition of qualification`, uk: `Визнання кваліфікації`, es: `Reconocimiento de la cualificación` },
+    'pitem.kataster.0': { en: `Slope cartogram`, uk: `Картограма ухилів`, es: `Cartograma de pendientes` },
+    'pitem.kataster.1': { en: `Soil cartogram`, uk: `Картограма ґрунтів`, es: `Cartograma de suelos` },
+    'pitem.kataster.2': { en: `As-built site plan`, uk: `План існуючого стану`, es: `Plano del estado actual` },
+    'pitem.certs.0': { en: `Authorization to use the professional title „Engineer" (Chamber of Engineers of Hesse)`, uk: `Дозвіл на використання професійного звання „Інженер" (Інженерна палата Гессену)`, es: `Autorización para usar el título profesional de «Ingeniero» (Cámara de Ingenieros de Hesse)` },
     'pitem.certs.1': { en: `Diploma`, uk: `Диплом`, es: `Diploma` },
     'pitem.certs.2': { en: `Assessment of foreign higher-education qualifications`, uk: `Оцінювання іноземних дипломів про вищу освіту`, es: `Evaluación de títulos universitarios extranjeros` },
     'pitem.certs.3': { en: `Employment record book of Ukraine`, uk: `Трудова книжка України`, es: `Cartilla laboral de Ucrania` },
     'pitem.certs.4': { en: `Certificate of competence of a design engineer (Ukraine)`, uk: `Кваліфікаційний сертифікат інженера-проєктувальника (Україна)`, es: `Certificado de aptitud de ingeniero proyectista (Ucrania)` },
-    'pitem.certs.5': { en: `Advanced training of a geodetic engineer (Ukraine)`, uk: `Підвищення кваліфікації інженера-геодезиста (Україна)`, es: `Perfeccionamiento profesional de ingeniero geodesta (Ucrania)` },
-    'pitem.certs.6': { en: `Advanced training of a geodetic engineer (Ukraine)`, uk: `Підвищення кваліфікації інженера-геодезиста (Україна)`, es: `Perfeccionamiento profesional de ingeniero geodesta (Ucrania)` },
+    'pitem.certs.5': { en: `Continuing education certificate of a surveying engineer (Ukraine, 2021)`, uk: `Свідоцтво про підвищення кваліфікації інженера-геодезиста (Україна, 2021)`, es: `Certificado de formación continua de ingeniero topógrafo (Ucrania, 2021)` },
+    'pitem.certs.6': { en: `Continuing education certificate of a surveying engineer (Ukraine, 2017)`, uk: `Свідоцтво про підвищення кваліфікації інженера-геодезиста (Україна, 2017)`, es: `Certificado de formación continua de ingeniero topógrafo (Ucrania, 2017)` },
     'pitem.certs.7': { en: `Certificate of competence of a surveying engineer (Ukraine)`, uk: `Кваліфікаційний сертифікат інженера-геодезиста (Україна)`, es: `Certificado de aptitud de ingeniero topógrafo (Ucrania)` },
-    'pitem.certs.8': { en: `Character reference`, uk: `Характеристика`, es: `Carta de recomendación` },
+    'pitem.certs.8': { en: `Reference letter (AWTOMAHISTRAL)`, uk: `Рекомендаційний лист (АВТОМАГІСТРАЛЬ)`, es: `Carta de referencia (AWTOMAHISTRAL)` },
+    'pitem.certs.9': { en: `Letter of recommendation (PCCE LTD, 2025)`, uk: `Рекомендаційний лист (PCCE LTD, 2025)`, es: `Carta de recomendación (PCCE LTD, 2025)` },
     'pitem.certs.10': { en: `Reference letter (WALL STEEL)`, uk: `Рекомендаційний лист (WALL STEEL)`, es: `Carta de referencia (WALL STEEL)` },
+    'pitem.certs.11': { en: `Occupational health and safety in construction`, uk: `Охорона праці та безпека в будівництві`, es: `Seguridad y salud laboral en la construcción` },
+    'pitem.certs.14': { en: `Coursera certificate`, uk: `Сертифікат Coursera`, es: `Certificado de Coursera` },
+    'pitem.certs.15': { en: `German certificate A2`, uk: `Сертифікат з німецької мови A2`, es: `Certificado de alemán A2` },
     'pitem.certs.16': { en: `„Life in Germany" test`, uk: `Тест „Життя в Німеччині"`, es: `Examen «Vivir en Alemania»` },
+
+    // ===== UI (aria-Beschriftungen, Kontaktformular, Metadaten) =====
+    'ui.prevCategory': { de: `Vorherige Kategorie`, en: `Previous category`, uk: `Попередня категорія`, es: `Categoría anterior` },
+    'ui.nextCategory': { de: `Nächste Kategorie`, en: `Next category`, uk: `Наступна категорія`, es: `Categoría siguiente` },
+    'ui.categories': { de: `Kategorien`, en: `Categories`, uk: `Категорії`, es: `Categorías` },
+    'ui.preview': { de: `Portfolio-Vorschau`, en: `Portfolio preview`, uk: `Перегляд портфоліо`, es: `Vista previa del portafolio` },
+    'ui.close': { de: `Schließen`, en: `Close`, uk: `Закрити`, es: `Cerrar` },
+    'ui.prevItem': { de: `Vorheriges Dokument`, en: `Previous document`, uk: `Попередній документ`, es: `Documento anterior` },
+    'ui.nextItem': { de: `Nächstes Dokument`, en: `Next document`, uk: `Наступний документ`, es: `Documento siguiente` },
+    'ui.langSelect': { de: `Sprache wählen`, en: `Choose language`, uk: `Обрати мову`, es: `Elegir idioma` },
+    'ui.menuOpen': { de: `Menü öffnen`, en: `Open menu`, uk: `Відкрити меню`, es: `Abrir menú` },
+    'mail.subject': { de: `Kontaktanfrage von`, en: `Contact request from`, uk: `Запит на контакт від`, es: `Solicitud de contacto de` },
+    'mail.email': { de: `E-Mail`, en: `Email`, uk: `Ел. пошта`, es: `Correo electrónico` },
+    'meta.title': {
+      de: `Oleksii Yermakov — Vermessungsingenieur`,
+      en: `Oleksii Yermakov — Surveying Engineer`,
+      uk: `Олексій Єрмаков — інженер-геодезист`,
+      es: `Oleksii Yermakov — Ingeniero topógrafo`
+    },
+    'meta.description': {
+      de: `Oleksii Yermakov — Vermessungsingenieur, Kartenzeichner, Land Manager mit 20 Jahren Erfahrung. DE · EN · UK · ES.`,
+      en: `Oleksii Yermakov — surveying engineer, cartographer and land manager with 20 years of experience.`,
+      uk: `Олексій Єрмаков — інженер-геодезист, картограф і землевпорядник з 20-річним досвідом.`,
+      es: `Oleksii Yermakov — ingeniero topógrafo, cartógrafo y gestor de tierras con 20 años de experiencia.`
+    },
 
     // ===== CV headings =====
     'cv.tag': { en: `§ 02 · CV`, uk: `§ 02 · Резюме`, es: `§ 02 · Currículum` },
@@ -394,8 +426,14 @@
   const originals = {};
   let current = 'de';
 
+  // localStorage kann blockiert sein (privater Modus, Cookie-Sperre) — dann ohne Speichern.
+  const storage = {
+    get(key) { try { return window.localStorage.getItem(key); } catch (e) { return null; } },
+    set(key, value) { try { window.localStorage.setItem(key, value); } catch (e) { /* ignorieren */ } }
+  };
+
   function detectLang() {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = storage.get(STORAGE_KEY);
     if (saved && SUPPORTED.includes(saved)) return saved;
     const nav = (navigator.language || 'de').slice(0, 2).toLowerCase();
     return SUPPORTED.includes(nav) ? nav : 'de';
@@ -461,7 +499,15 @@
     applyCvPdf(lang);
 
     document.documentElement.lang = lang;
-    localStorage.setItem(STORAGE_KEY, lang);
+    storage.set(STORAGE_KEY, lang);
+
+    document.title = t('meta.title');
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', t('meta.description'));
+    [['langCurrent', 'ui.langSelect'], ['navToggle', 'ui.menuOpen']].forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('aria-label', t(key));
+    });
 
     const codeEl = document.getElementById('langCode');
     if (codeEl) codeEl.textContent = lang.toUpperCase();

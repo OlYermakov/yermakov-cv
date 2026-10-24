@@ -74,8 +74,12 @@
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
 
-    const subject = encodeURIComponent(`Kontaktanfrage von ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nE-Mail: ${email}\n\n${message}`);
+    const tr = (key, fallback) => {
+      const v = window.i18nText ? window.i18nText(key) : key;
+      return v && v !== key ? v : fallback;
+    };
+    const subject = encodeURIComponent(`${tr('mail.subject', 'Kontaktanfrage von')} ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\n${tr('mail.email', 'E-Mail')}: ${email}\n\n${message}`);
     window.location.href = `mailto:olyermakov@gmail.com?subject=${subject}&body=${body}`;
   });
 })();

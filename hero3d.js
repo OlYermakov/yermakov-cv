@@ -1,9 +1,8 @@
-(function initHero3D() {
-  'use strict';
+import * as THREE from './vendor/three.module.min.js';
 
-  const THREE = window.THREE;
+(function initHero3D() {
   const canvas = document.getElementById('heroCanvas');
-  if (!canvas || !THREE) return;
+  if (!canvas) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = window.innerWidth < 768;
@@ -14,12 +13,19 @@
   const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
   camera.position.set(0, 14, 22);
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: !isMobile,
-    alpha: true,
-    powerPreference: 'high-performance'
-  });
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: !isMobile,
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
+  } catch (err) {
+    // Kein WebGL verfügbar — Hero bleibt mit statischem Hintergrund.
+    canvas.remove();
+    return;
+  }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
   renderer.setClearColor(0x000000, 0);
 
@@ -272,11 +278,10 @@
   window.addEventListener('resize', resize, { passive: true });
 
   const clock = new THREE.Clock();
-  let animId;
-  let running = true;
+  let animId = 0;
+  let inView = true;
 
   function animate() {
-    if (!running) return;
     animId = requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
     const speed = prefersReducedMotion ? 0 : 1;
@@ -318,16 +323,29 @@
     renderer.render(scene, camera);
   }
 
-  animate();
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      running = false;
-      cancelAnimationFrame(animId);
-    } else {
-      running = true;
-      clock.getElapsedTime();
+  // Animation nur laufen lassen, wenn der Hero sichtbar und der Tab aktiv ist
+  // (spart Akku/GPU). Bei „reduzierter Bewegung" wird nur ein Standbild gerendert.
+  function updateRunning() {
+    const shouldRun = inView && !document.hidden && !prefersReducedMotion;
+    if (shouldRun && !animId) {
       animate();
+    } else if (!shouldRun && animId) {
+      cancelAnimationFrame(animId);
+      animId = 0;
     }
-  });
+  }
+
+  if (prefersReducedMotion) {
+    animate();
+    cancelAnimationFrame(animId);
+    animId = 0;
+    window.addEventListener('resize', () => renderer.render(scene, camera), { passive: true });
+  }
+
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    updateRunning();
+  }).observe(canvas);
+
+  document.addEventListener('visibilitychange', updateRunning);
 })();

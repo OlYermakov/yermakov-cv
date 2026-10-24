@@ -21,3 +21,7 @@ env/
 *.log
 render.log
 *.tmp
+
+# Original portfolio sources (PDFs, full-size scans) — kept locally only.
+# render-portfolio.py turns them into web-optimized images in PortfolioRender/.
+Portfolio/
