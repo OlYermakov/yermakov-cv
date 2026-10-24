@@ -372,7 +372,7 @@
     // ===== About =====
     'about.title': { en: `About me`, uk: `Про мене`, es: `Sobre mí` },
     'about.birthLabel': { en: `Date of birth:`, uk: `Дата народження:`, es: `Fecha de nacimiento:` },
-    'about.birthValue': { en: `24 February 1986`, uk: `24 лютого 1986`, es: `24 de febrero de 1986` },
+    'about.birthValue': { en: `February 1986`, uk: `Лютий 1986`, es: `Febrero de 1986` },
     'about.licenseLabel': { en: `Driving licence:`, uk: `Посвідчення водія:`, es: `Permiso de conducir:` },
     'about.licenseValue': { en: `Category B`, uk: `Категорія B`, es: `Categoría B` },
     'about.familyLabel': { en: `Marital status:`, uk: `Сімейний стан:`, es: `Estado civil:` },
